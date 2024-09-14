@@ -1,0 +1,1 @@
+dotnet build HibernateGenerator/HibernateGenerator.csproj -c:Release

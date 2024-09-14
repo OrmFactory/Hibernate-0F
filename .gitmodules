@@ -1,0 +1,3 @@
+[submodule "PluginInterfaces"]
+	path = PluginInterfaces
+	url = https://github.com/OrmFactory/PluginInterfaces.git

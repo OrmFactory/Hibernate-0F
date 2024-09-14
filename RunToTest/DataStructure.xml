@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Software="OrmFactory.com" Name="sakila">
+	<Schema Name="sakila">
+		<Table Name="actor" ClassName="Actor" RepositoryName="Actors">
+			<Column Name="actor_id" DatabaseType="smallint unsigned" FieldName="ActorId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="first_name" DatabaseType="varchar(45)" FieldName="FirstName" />
+			<Column Name="last_name" DatabaseType="varchar(45)" FieldName="LastName" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_film_actor_actor" FieldName="ActorFilmActors" FromColumn="actor_id" ToColumn="film_actor.actor_id" Reverse="true" />
+		</Table>
+		<Table Name="address" ClassName="Address" RepositoryName="Addresses">
+			<Column Name="address_id" DatabaseType="smallint unsigned" FieldName="AddressId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="address" DatabaseType="varchar(50)" FieldName="Address" />
+			<Column Name="address2" DatabaseType="varchar(50)" FieldName="Address2" Nullable="true" />
+			<Column Name="district" DatabaseType="varchar(20)" FieldName="District" />
+			<Column Name="city_id" DatabaseType="smallint unsigned" FieldName="CityId" />
+			<Column Name="postal_code" DatabaseType="varchar(10)" FieldName="PostalCode" Nullable="true" />
+			<Column Name="phone" DatabaseType="varchar(20)" FieldName="Phone" />
+			<Column Name="location" DatabaseType="geometry" FieldName="Location" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_address_city" FieldName="City" FromColumn="city_id" ToColumn="city.city_id" />
+			<ForeignKey Name="fk_customer_address" FieldName="AddressCustomers" FromColumn="address_id" ToColumn="customer.address_id" Reverse="true" />
+			<ForeignKey Name="fk_staff_address" FieldName="AddressStaffs" FromColumn="address_id" ToColumn="staff.address_id" Reverse="true" />
+			<ForeignKey Name="fk_store_address" FieldName="AddressStores" FromColumn="address_id" ToColumn="store.address_id" Reverse="true" />
+		</Table>
+		<Table Name="category" ClassName="Category" RepositoryName="Categories">
+			<Column Name="category_id" DatabaseType="tinyint unsigned" FieldName="CategoryId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="name" DatabaseType="varchar(25)" FieldName="Name" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_film_category_category" FieldName="CategoryFilmCategories" FromColumn="category_id" ToColumn="film_category.category_id" Reverse="true" />
+		</Table>
+		<Table Name="city" ClassName="City" RepositoryName="Cities">
+			<Column Name="city_id" DatabaseType="smallint unsigned" FieldName="CityId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="city" DatabaseType="varchar(50)" FieldName="City" />
+			<Column Name="country_id" DatabaseType="smallint unsigned" FieldName="CountryId" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_address_city" FieldName="CityAddresses" FromColumn="city_id" ToColumn="address.city_id" Reverse="true" />
+			<ForeignKey Name="fk_city_country" FieldName="Country" FromColumn="country_id" ToColumn="country.country_id" />
+		</Table>
+		<Table Name="country" ClassName="Country" RepositoryName="Countries">
+			<Column Name="country_id" DatabaseType="smallint unsigned" FieldName="CountryId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="country" DatabaseType="varchar(50)" FieldName="Country" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_city_country" FieldName="CountryCities" FromColumn="country_id" ToColumn="city.country_id" Reverse="true" />
+		</Table>
+		<Table Name="customer" ClassName="Customer" RepositoryName="Customers">
+			<Column Name="customer_id" DatabaseType="smallint unsigned" FieldName="CustomerId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="store_id" DatabaseType="tinyint unsigned" FieldName="StoreId" />
+			<Column Name="first_name" DatabaseType="varchar(45)" FieldName="FirstName" />
+			<Column Name="last_name" DatabaseType="varchar(45)" FieldName="LastName" />
+			<Column Name="email" DatabaseType="varchar(50)" FieldName="Email" Nullable="true" />
+			<Column Name="address_id" DatabaseType="smallint unsigned" FieldName="AddressId" />
+			<Column Name="active" DatabaseType="tinyint(1)" FieldName="Active" Default="1" />
+			<Column Name="create_date" DatabaseType="datetime" FieldName="CreateDate" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" Nullable="true" />
+			<ForeignKey Name="fk_customer_store" FieldName="Store" FromColumn="store_id" ToColumn="store.store_id" />
+			<ForeignKey Name="fk_customer_address" FieldName="Address" FromColumn="address_id" ToColumn="address.address_id" />
+			<ForeignKey Name="fk_payment_customer" FieldName="CustomerPayments" FromColumn="customer_id" ToColumn="payment.customer_id" Reverse="true" />
+			<ForeignKey Name="fk_rental_customer" FieldName="CustomerRentals" FromColumn="customer_id" ToColumn="rental.customer_id" Reverse="true" />
+		</Table>
+		<Table Name="film" ClassName="Film" RepositoryName="Films">
+			<Column Name="film_id" DatabaseType="smallint unsigned" FieldName="FilmId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="title" DatabaseType="varchar(255)" FieldName="Title" />
+			<Column Name="description" DatabaseType="text" FieldName="Description" Nullable="true" />
+			<Column Name="release_year" DatabaseType="year" FieldName="ReleaseYear" Nullable="true" />
+			<Column Name="language_id" DatabaseType="tinyint unsigned" FieldName="LanguageId" />
+			<Column Name="original_language_id" DatabaseType="tinyint unsigned" FieldName="OriginalLanguageId" Nullable="true" />
+			<Column Name="rental_duration" DatabaseType="tinyint unsigned" FieldName="RentalDuration" Default="3" />
+			<Column Name="rental_rate" DatabaseType="decimal(4,2)" FieldName="RentalRate" Default="4.99" />
+			<Column Name="length" DatabaseType="smallint unsigned" FieldName="Length" Nullable="true" />
+			<Column Name="replacement_cost" DatabaseType="decimal(5,2)" FieldName="ReplacementCost" Default="19.99" />
+			<Column Name="rating" DatabaseType="enum('G','PG','PG-13','R','NC-17')" FieldName="Rating" Default="G" Nullable="true" />
+			<Column Name="special_features" DatabaseType="set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')" FieldName="SpecialFeatures" Nullable="true" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_film_language_original" FieldName="OriginalLanguage" FromColumn="original_language_id" ToColumn="language.language_id" />
+			<ForeignKey Name="fk_film_language" FieldName="Language" FromColumn="language_id" ToColumn="language.language_id" />
+			<ForeignKey Name="fk_film_actor_film" FieldName="FilmFilmActors" FromColumn="film_id" ToColumn="film_actor.film_id" Reverse="true" />
+			<ForeignKey Name="fk_film_category_film" FieldName="FilmFilmCategories" FromColumn="film_id" ToColumn="film_category.film_id" Reverse="true" />
+			<ForeignKey Name="fk_inventory_film" FieldName="FilmInventories" FromColumn="film_id" ToColumn="inventory.film_id" Reverse="true" />
+		</Table>
+		<Table Name="film_actor" ClassName="FilmActor" RepositoryName="FilmActors">
+			<Column Name="actor_id" DatabaseType="smallint unsigned" FieldName="ActorId" PrimaryKey="true" />
+			<Column Name="film_id" DatabaseType="smallint unsigned" FieldName="FilmId" PrimaryKey="true" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_film_actor_film" FieldName="Film" FromColumn="film_id" ToColumn="film.film_id" />
+			<ForeignKey Name="fk_film_actor_actor" FieldName="Actor" FromColumn="actor_id" ToColumn="actor.actor_id" />
+		</Table>
+		<Table Name="film_category" ClassName="FilmCategory" RepositoryName="FilmCategories">
+			<Column Name="film_id" DatabaseType="smallint unsigned" FieldName="FilmId" PrimaryKey="true" />
+			<Column Name="category_id" DatabaseType="tinyint unsigned" FieldName="CategoryId" PrimaryKey="true" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_film_category_category" FieldName="Category" FromColumn="category_id" ToColumn="category.category_id" />
+			<ForeignKey Name="fk_film_category_film" FieldName="Film" FromColumn="film_id" ToColumn="film.film_id" />
+		</Table>
+		<Table Name="film_text" ClassName="FilmText" RepositoryName="FilmTexts">
+			<Column Name="film_id" DatabaseType="smallint" FieldName="FilmId" PrimaryKey="true" />
+			<Column Name="title" DatabaseType="varchar(255)" FieldName="Title" />
+			<Column Name="description" DatabaseType="text" FieldName="Description" Nullable="true" />
+		</Table>
+		<Table Name="inventory" ClassName="Inventory" RepositoryName="Inventories">
+			<Column Name="inventory_id" DatabaseType="mediumint unsigned" FieldName="InventoryId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="film_id" DatabaseType="smallint unsigned" FieldName="FilmId" />
+			<Column Name="store_id" DatabaseType="tinyint unsigned" FieldName="StoreId" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_inventory_film" FieldName="Film" FromColumn="film_id" ToColumn="film.film_id" />
+			<ForeignKey Name="fk_inventory_store" FieldName="Store" FromColumn="store_id" ToColumn="store.store_id" />
+			<ForeignKey Name="fk_rental_inventory" FieldName="InventoryRentals" FromColumn="inventory_id" ToColumn="rental.inventory_id" Reverse="true" />
+		</Table>
+		<Table Name="language" ClassName="Language" RepositoryName="Languages">
+			<Column Name="language_id" DatabaseType="tinyint unsigned" FieldName="LanguageId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="name" DatabaseType="char(20)" FieldName="Name" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_film_language_original" FieldName="OriginalLanguageFilms" FromColumn="language_id" ToColumn="film.original_language_id" Reverse="true" />
+			<ForeignKey Name="fk_film_language" FieldName="LanguageFilms" FromColumn="language_id" ToColumn="film.language_id" Reverse="true" />
+		</Table>
+		<Table Name="payment" ClassName="Payment" RepositoryName="Payments">
+			<Column Name="payment_id" DatabaseType="smallint unsigned" FieldName="PaymentId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="customer_id" DatabaseType="smallint unsigned" FieldName="CustomerId" />
+			<Column Name="staff_id" DatabaseType="tinyint unsigned" FieldName="StaffId" />
+			<Column Name="rental_id" DatabaseType="int" FieldName="RentalId" Nullable="true" />
+			<Column Name="amount" DatabaseType="decimal(5,2)" FieldName="Amount" />
+			<Column Name="payment_date" DatabaseType="datetime" FieldName="PaymentDate" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" Nullable="true" />
+			<ForeignKey Name="fk_payment_staff" FieldName="Staff" FromColumn="staff_id" ToColumn="staff.staff_id" />
+			<ForeignKey Name="fk_payment_customer" FieldName="Customer" FromColumn="customer_id" ToColumn="customer.customer_id" />
+			<ForeignKey Name="fk_payment_rental" FieldName="Rental" FromColumn="rental_id" ToColumn="rental.rental_id" />
+		</Table>
+		<Table Name="rental" ClassName="Rental" RepositoryName="Rentals">
+			<Column Name="rental_id" DatabaseType="int" FieldName="RentalId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="rental_date" DatabaseType="datetime" FieldName="RentalDate" />
+			<Column Name="inventory_id" DatabaseType="mediumint unsigned" FieldName="InventoryId" />
+			<Column Name="customer_id" DatabaseType="smallint unsigned" FieldName="CustomerId" />
+			<Column Name="return_date" DatabaseType="datetime" FieldName="ReturnDate" Nullable="true" />
+			<Column Name="staff_id" DatabaseType="tinyint unsigned" FieldName="StaffId" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_payment_rental" FieldName="RentalPayments" FromColumn="rental_id" ToColumn="payment.rental_id" Reverse="true" />
+			<ForeignKey Name="fk_rental_customer" FieldName="Customer" FromColumn="customer_id" ToColumn="customer.customer_id" />
+			<ForeignKey Name="fk_rental_inventory" FieldName="Inventory" FromColumn="inventory_id" ToColumn="inventory.inventory_id" />
+			<ForeignKey Name="fk_rental_staff" FieldName="Staff" FromColumn="staff_id" ToColumn="staff.staff_id" />
+		</Table>
+		<Table Name="staff" ClassName="Staff" RepositoryName="Staff">
+			<Column Name="staff_id" DatabaseType="tinyint unsigned" FieldName="StaffId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="first_name" DatabaseType="varchar(45)" FieldName="FirstName" />
+			<Column Name="last_name" DatabaseType="varchar(45)" FieldName="LastName" />
+			<Column Name="address_id" DatabaseType="smallint unsigned" FieldName="AddressId" />
+			<Column Name="picture" DatabaseType="blob" FieldName="Picture" Nullable="true" />
+			<Column Name="email" DatabaseType="varchar(50)" FieldName="Email" Nullable="true" />
+			<Column Name="store_id" DatabaseType="tinyint unsigned" FieldName="StoreId" />
+			<Column Name="active" DatabaseType="tinyint(1)" FieldName="Active" Default="1" />
+			<Column Name="username" DatabaseType="varchar(16)" FieldName="Username" />
+			<Column Name="password" DatabaseType="varchar(40)" FieldName="Password" Nullable="true" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_payment_staff" FieldName="StaffPayments" FromColumn="staff_id" ToColumn="payment.staff_id" Reverse="true" />
+			<ForeignKey Name="fk_rental_staff" FieldName="StaffRentals" FromColumn="staff_id" ToColumn="rental.staff_id" Reverse="true" />
+			<ForeignKey Name="fk_staff_address" FieldName="Address" FromColumn="address_id" ToColumn="address.address_id" />
+			<ForeignKey Name="fk_staff_store" FieldName="Store" FromColumn="store_id" ToColumn="store.store_id" />
+			<ForeignKey Name="fk_store_staff" FieldName="ManagerStaffStores" FromColumn="staff_id" ToColumn="store.manager_staff_id" Reverse="true" />
+		</Table>
+		<Table Name="store" ClassName="Store" RepositoryName="Stores">
+			<Column Name="store_id" DatabaseType="tinyint unsigned" FieldName="StoreId" PrimaryKey="true" AutoIncrement="true" />
+			<Column Name="manager_staff_id" DatabaseType="tinyint unsigned" FieldName="ManagerStaffId" />
+			<Column Name="address_id" DatabaseType="smallint unsigned" FieldName="AddressId" />
+			<Column Name="last_update" DatabaseType="timestamp" FieldName="LastUpdate" Default="CURRENT_TIMESTAMP" />
+			<ForeignKey Name="fk_customer_store" FieldName="StoreCustomers" FromColumn="store_id" ToColumn="customer.store_id" Reverse="true" />
+			<ForeignKey Name="fk_inventory_store" FieldName="StoreInventories" FromColumn="store_id" ToColumn="inventory.store_id" Reverse="true" />
+			<ForeignKey Name="fk_staff_store" FieldName="StoreStaffs" FromColumn="store_id" ToColumn="staff.store_id" Reverse="true" />
+			<ForeignKey Name="fk_store_address" FieldName="Address" FromColumn="address_id" ToColumn="address.address_id" />
+			<ForeignKey Name="fk_store_staff" FieldName="ManagerStaff" FromColumn="manager_staff_id" ToColumn="staff.staff_id" />
+		</Table>
+	</Schema>
+</Project>
