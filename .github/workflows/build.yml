@@ -18,13 +18,16 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build HibernateGenerator/HibernateGenerator.csproj -c:Release
-      - run: |
-          ls -la HibernateGenerator/bin/Release/net8.0/
+      # - run: |
+      #     ls -la HibernateGenerator/bin/Release/net8.0/HibernateGenerator.dll
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
           name: result
-          path: HibernateGenerator/bin/Release/net8.0/
+          path: HibernateGenerator/bin/Release/net8.0/HibernateGenerator.dll
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: HibernateGenerator/bin/Release/net8.0/HibernateGenerator.dll
 
-      # - name: Test with the dotnet CLI
-      #   run: dotnet test
