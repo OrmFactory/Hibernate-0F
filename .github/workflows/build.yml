@@ -19,12 +19,12 @@ jobs:
       - name: Build
         run: dotnet build HibernateGenerator/HibernateGenerator.csproj -c:Release
       - run: |
-          ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
-      # - name: Upload dotnet test results
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: result
-      #     path: bin/Release/net8.0/win-x64/publish/
+          ls -la HibernateGenerator/bin/Release/net8.0/
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: result
+          path: HibernateGenerator/bin/Release/net8.0/
 
       # - name: Test with the dotnet CLI
       #   run: dotnet test
