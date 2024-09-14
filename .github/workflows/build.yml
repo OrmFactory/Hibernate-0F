@@ -15,7 +15,7 @@ jobs:
       - run: |
           ls ${{github.workspace}}
       - name: Install dependencies
-        run: msbuild Hibernate-0F.sln -t:restore -p:RestorePackagesConfig=true
+        run: dotnet restore Hibernate-0F.sln
       - name: Build
         run: dotnet build HibernateGenerator/HibernateGenerator.csproj -c:Release
       - name: ls -lah
