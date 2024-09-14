@@ -19,7 +19,7 @@ jobs:
       - name: Build
         run: dotnet build HibernateGenerator/HibernateGenerator.csproj -c:Release
       - run: |
-          ls ${{github.workspace}}
+          ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
       # - name: Upload dotnet test results
       #   uses: actions/upload-artifact@v4
       #   with:
