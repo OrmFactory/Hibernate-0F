@@ -12,6 +12,8 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      - run: |
+          ls ${{github.workspace}}
       - name: Install dependencies
         run: msbuild Hibernate-0F.sln -t:restore -p:RestorePackagesConfig=true
       - name: Build
