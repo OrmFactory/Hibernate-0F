@@ -1,0 +1,28 @@
+name: Build package
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build HibernateGenerator/HibernateGenerator.csproj -c:Release
+      - name: ls -lah
+        run: ls -lah bin/
+      # - name: Upload dotnet test results
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: result
+      #     path: bin/Release/net8.0/win-x64/publish/
+
+      # - name: Test with the dotnet CLI
+      #   run: dotnet test
