@@ -1,6 +1,6 @@
 ## What is it?
 
-Hibernate entity beans and repository generator plugin for OrmFactory database [OrmFactory](https://ormfactory.com) visual database model editor.
+Hibernate entity beans and repository generator plugin for [OrmFactory](https://ormfactory.com) database visual database model editor.
 
 ## How to use it?
 
@@ -18,16 +18,17 @@ Hibernate entity beans and repository generator plugin for OrmFactory database [
 
 ## How to build it?
 
-- clone this repository
-- run build.bat or build.sh
+- clone this repository using `git clone --recurse-submodules https://github.com/OrmFactory/Hibernate-0F.git`
+- if you forgot to add --recurse-submodules run `git submodule update --init` in cloned directory
+- run `build.bat` or `build.sh`
 
 ## How to build my own generator?
 
 First of all you need to create OrmFactory project. Create new connection, create or import database structure you want to use in source code generator.
 
-Add new XML file generator in your project. Adjust partial generation to produce necessary tables and enter path for generated file.
+Add new XML file generator to your project. Adjust partial generation to produce necessary tables and enter path for generated file. Run generator.
 
-Replace entire body in DataStructure.xml with your xml.
+Replace entire body of DataStructure.xml with your generated xml.
 
 Set "RunToTest" project as default to start. Build and run project.
 
